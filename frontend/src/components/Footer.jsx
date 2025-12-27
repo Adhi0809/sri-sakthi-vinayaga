@@ -68,15 +68,15 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-blue-200 text-sm">
                 <Phone className="w-4 h-4 text-orange-400" />
-                <span>+91 98765 43210</span>
+                <span>+91 9965810360</span>
               </li>
               <li className="flex items-center gap-3 text-blue-200 text-sm">
                 <Mail className="w-4 h-4 text-orange-400" />
-                <span>info@srisakthi.com</span>
+                <span>mparitvr@gmail.com</span>
               </li>
               <li className="flex items-start gap-3 text-blue-200 text-sm">
                 <MapPin className="w-4 h-4 text-orange-400 mt-0.5" />
-                <span>123 Main Street, City Name, State - 600001</span>
+                <span>127, Pallivasal Street, Upstairs of MSR Covering, Vijayapuram, Thiruvarur - 610001</span>
               </li>
             </ul>
           </div>
