@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,10 +6,9 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
-
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -25,46 +24,130 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-
 # Define Models
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
-    
+class Service(BaseModel):
+    model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    name: str
+    description: str
+    icon: str
+    featured: bool = False
 
-class StatusCheckCreate(BaseModel):
-    client_name: str
+class Achievement(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    student_name: str
+    course_completed: str
+    photo_url: Optional[str] = None
+    completion_date: str
+    testimonial: Optional[str] = None
+    placed_at: Optional[str] = None
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
-# Add your routes to the router instead of directly to app
+class AchievementCreate(BaseModel):
+    student_name: str
+    course_completed: str
+    photo_url: Optional[str] = None
+    completion_date: str
+    testimonial: Optional[str] = None
+    placed_at: Optional[str] = None
+
+class Enrollment(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    full_name: str
+    email: str
+    phone: str
+    address: str
+    qualification: str
+    course: str
+    message: Optional[str] = None
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    status: str = "pending"
+
+class EnrollmentCreate(BaseModel):
+    full_name: str
+    email: str
+    phone: str
+    address: str
+    qualification: str
+    course: str
+    message: Optional[str] = None
+
+# Routes
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Sri Sakthi Vinayaga Mobile Services API"}
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    
-    _ = await db.status_checks.insert_one(doc)
-    return status_obj
+# Services Routes
+@api_router.get("/services", response_model=List[Service])
+async def get_services():
+    services = await db.services.find({}, {"_id": 0}).to_list(100)
+    if not services:
+        # Return default services if none exist
+        default_services = [
+            {"id": "1", "name": "Basic Mobile Repair", "description": "Screen replacement, battery change, charging port repair and basic troubleshooting", "icon": "smartphone", "featured": False},
+            {"id": "2", "name": "Smartphone Repair", "description": "Advanced smartphone repairs including software issues, camera repairs, and water damage recovery", "icon": "wrench", "featured": True},
+            {"id": "3", "name": "Motherboard Repair", "description": "Chip-level repair and motherboard replacement for all mobile brands", "icon": "cpu", "featured": True},
+            {"id": "4", "name": "Software Solutions", "description": "OS installation, software updates, virus removal, and data recovery services", "icon": "code", "featured": False},
+            {"id": "5", "name": "Tablet Repair", "description": "Complete tablet repair services including screen, battery, and hardware issues", "icon": "tablet", "featured": False},
+            {"id": "6", "name": "Accessories", "description": "Quality mobile accessories, screen guards, cases, and charging equipment", "icon": "package", "featured": False}
+        ]
+        return default_services
+    return services
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
+# Achievements Routes
+@api_router.get("/achievements", response_model=List[Achievement])
+async def get_achievements():
+    achievements = await db.achievements.find({}, {"_id": 0}).to_list(100)
+    return achievements
+
+@api_router.post("/achievements", response_model=Achievement)
+async def create_achievement(achievement: AchievementCreate):
+    achievement_obj = Achievement(**achievement.model_dump())
+    doc = achievement_obj.model_dump()
+    await db.achievements.insert_one(doc)
+    return achievement_obj
+
+@api_router.delete("/achievements/{achievement_id}")
+async def delete_achievement(achievement_id: str):
+    result = await db.achievements.delete_one({"id": achievement_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Achievement not found")
+    return {"message": "Achievement deleted successfully"}
+
+# Enrollment Routes
+@api_router.get("/enrollments", response_model=List[Enrollment])
+async def get_enrollments():
+    enrollments = await db.enrollments.find({}, {"_id": 0}).to_list(100)
+    return enrollments
+
+@api_router.post("/enrollments", response_model=Enrollment)
+async def create_enrollment(enrollment: EnrollmentCreate):
+    enrollment_obj = Enrollment(**enrollment.model_dump())
+    doc = enrollment_obj.model_dump()
+    await db.enrollments.insert_one(doc)
+    return enrollment_obj
+
+@api_router.patch("/enrollments/{enrollment_id}/status")
+async def update_enrollment_status(enrollment_id: str, status: str):
+    result = await db.enrollments.update_one(
+        {"id": enrollment_id},
+        {"$set": {"status": status}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+    return {"message": "Status updated successfully"}
+
+# Courses (static for now)
+@api_router.get("/courses")
+async def get_courses():
+    return [
+        {"id": "1", "name": "Basic Mobile Repair Course", "duration": "2 Months", "description": "Learn fundamental mobile repair techniques"},
+        {"id": "2", "name": "Advanced Smartphone Repair", "duration": "3 Months", "description": "Master advanced smartphone troubleshooting and repair"},
+        {"id": "3", "name": "Chip Level / Motherboard Repair", "duration": "4 Months", "description": "Expert-level chip and motherboard repair training"},
+        {"id": "4", "name": "Complete Mobile Technician Course", "duration": "6 Months", "description": "Comprehensive course covering all aspects of mobile repair"}
+    ]
 
 # Include the router in the main app
 app.include_router(api_router)
