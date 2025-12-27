@@ -1,0 +1,176 @@
+{
+  "typography": {
+    "headings": {
+      "font_family": "Manrope, sans-serif",
+      "weights": ["600", "700", "800"],
+      "usage": "All section titles, hero headings, and card titles. Use tight tracking (-0.02em) for sizes above 32px."
+    },
+    "body": {
+      "font_family": "IBM Plex Sans, sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Paragraphs, navigation links, form labels, and table data."
+    },
+    "mono": {
+      "font_family": "JetBrains Mono, monospace",
+      "usage": "Technical specs, pricing numbers, and code snippets."
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "name": "Tech Saffron",
+        "hex": "#EA580C",
+        "tailwind": "orange-600",
+        "usage": "Primary buttons, active states, key highlights, icons."
+      },
+      "secondary": {
+        "name": "Deep Circuit Blue",
+        "hex": "#1E3A8A",
+        "tailwind": "blue-900",
+        "usage": "Footer background, hero text, secondary buttons."
+      },
+      "background": {
+        "name": "Clean Slate",
+        "hex": "#F8FAFC",
+        "tailwind": "slate-50",
+        "usage": "Main page background."
+      },
+      "surface": {
+        "name": "White",
+        "hex": "#FFFFFF",
+        "tailwind": "white",
+        "usage": "Cards, form backgrounds, modal dialogs."
+      },
+      "text": {
+        "primary": "#0F172A",
+        "secondary": "#475569",
+        "muted": "#94A3B8"
+      }
+    },
+    "gradients": {
+      "hero_overlay": "linear-gradient(135deg, rgba(234, 88, 12, 0.1) 0%, rgba(30, 58, 138, 0.05) 100%)",
+      "card_hover": "linear-gradient(to bottom right, rgba(255,255,255,0.8), rgba(255,255,255,0.4))"
+    }
+  },
+  "visual_enhancers": {
+    "textures": {
+      "circuit_pattern": "Use a subtle SVG circuit board pattern with 0.03 opacity on section backgrounds.",
+      "noise": "Add a 2% noise overlay on solid color blocks to prevent flatness."
+    },
+    "shadows": {
+      "card_rest": "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+      "card_hover": "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)",
+      "glow": "0 0 15px rgba(234, 88, 12, 0.3)"
+    },
+    "border_radius": {
+      "cards": "rounded-xl",
+      "buttons": "rounded-lg",
+      "inputs": "rounded-md"
+    }
+  },
+  "layout_strategies": {
+    "navbar": {
+      "style": "Glassmorphism",
+      "classes": "backdrop-blur-md bg-white/80 border-b border-slate-200/50 sticky top-0 z-50",
+      "content": "Logo on left, Links centered (hidden mobile), CTA 'Contact Quote' on right."
+    },
+    "hero": {
+      "style": "Tetris Grid (Mode A)",
+      "structure": "Asymmetric grid. Text block (col-span-full lg:col-span-5), Hero Image (col-span-full lg:col-span-7).",
+      "elements": "Bold Headline (text-5xl+), Subtext, Dual CTA (Enroll vs Repair)."
+    },
+    "services_grid": {
+      "style": "Bento Grid",
+      "structure": "Grid with varying card sizes. Highlight 'Motherboard Repair' or 'Smartphone Repair' as larger cards.",
+      "interaction": "Hover: Scale up 1.02, Shadow-lg, Border-orange-200."
+    },
+    "achievements": {
+      "style": "Masonry / Carousel",
+      "structure": "Gallery of student success stories. Use 'Marquee' for placement logos if applicable.",
+      "admin_feature": "Admin panel must allow uploading photo + student name + company placed."
+    },
+    "enrollment_form": {
+      "style": "Clean Step-like Form",
+      "structure": "Single page but visually grouped. Personal Info -> Course Selection -> Contact.",
+      "components": "Shadcn Input, Select, Textarea. Use 'Card' container with generous padding (p-8)."
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-600/20 transition-all duration-300",
+      "secondary": "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 hover:border-orange-200 transition-all duration-300",
+      "ghost": "text-slate-600 hover:text-orange-600 hover:bg-orange-50"
+    },
+    "cards": {
+      "service_card": "bg-white border border-slate-100 p-6 hover:border-orange-200 transition-colors group relative overflow-hidden",
+      "student_card": "bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+    },
+    "inputs": {
+      "default": "bg-slate-50 border-slate-200 focus:border-orange-500 focus:ring-orange-500/20"
+    }
+  },
+  "image_urls": {
+    "hero_repair": {
+      "url": "https://images.unsplash.com/photo-1603114595741-e60bf9486e04?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBwaG9uZSUyMHJlcGFpciUyMHRlY2huaWNpYW4lMjBzb2xkZXJpbmd8ZW58MHx8fHwxNzY2ODEyMzczfDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Technician soldering mobile component",
+      "usage": "Hero section main image"
+    },
+    "service_soldering": {
+      "url": "https://images.unsplash.com/photo-1639776739297-f7e1f21526f4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwzfHxtb2JpbGUlMjBwaG9uZSUyMHJlcGFpciUyMHRlY2huaWNpYW4lMjBzb2xkZXJpbmd8ZW58MHx8fHwxNzY2ODEyMzczfDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Precision repair with gloves",
+      "usage": "Services section - Advanced Repair"
+    },
+    "tech_abstract": {
+      "url": "https://images.pexels.com/photos/6755093/pexels-photo-6755093.jpeg",
+      "alt": "Electronics close up",
+      "usage": "Background texture or 'About Us' visual"
+    },
+    "students_learning": {
+      "url": "https://images.pexels.com/photos/4143798/pexels-photo-4143798.jpeg",
+      "alt": "Students in classroom",
+      "usage": "Institute/Course Enrollment section"
+    },
+    "motherboard_detail": {
+      "url": "https://images.unsplash.com/photo-1562976540-6aef56e55013?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxzbWFydHBob25lJTIwbW90aGVyYm9hcmQlMjBlbGVjdHJvbmljcyUyMGNsb3NlJTIwdXB8ZW58MHx8fHwxNzY2ODEyMzc1fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "RAM and Motherboard detail",
+      "usage": "Services section - Chip Level Service"
+    }
+  },
+  "instructions_to_main_agent": {
+    "setup": [
+      "Install 'lucide-react' for icons.",
+      "Install 'framer-motion' for animations.",
+      "Configure 'tailwind.config.js' to use the custom color palette (Tech Saffron & Deep Circuit Blue).",
+      "Ensure 'Manrope' and 'IBM Plex Sans' are imported in index.css via Google Fonts."
+    ],
+    "implementation_order": [
+      "1. Setup Layout (Navbar, Footer).",
+      "2. Build Home Page (Hero, Services Grid, About).",
+      "3. Build Achievements Section (Gallery).",
+      "4. Build Enrollment Page (Form).",
+      "5. Build Admin Panel (Simple Dashboard for Uploads)."
+    ],
+    "critical_rules": [
+      "Do NOT use default Shadcn black/white only. Inject the Orange/Blue brand identity.",
+      "Ensure the Enrollment form is mobile-responsive (stack columns on mobile).",
+      "The Admin Panel should be simple but secure (mock auth is fine if not specified).",
+      "Use 'sonner' for form submission success toasts."
+    ]
+  },
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms.",
+    "You MUST NOT center align the app container.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Components MUST use named exports.",
+    "Use 'sonner' for toasts."
+  ]
+}
