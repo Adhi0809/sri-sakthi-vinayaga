@@ -293,7 +293,7 @@ export const AdminPage = () => {
                         type="submit"
                         data-testid="submit-achievement-btn"
                         disabled={submitting}
-                        className="w-full bg-orange-600 hover:bg-orange-700"
+                        className="w-full bg-orange-600 hover:bg-orange-700 relative z-50"
                       >
                         {submitting ? (
                           <>
